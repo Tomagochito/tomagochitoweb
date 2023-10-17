@@ -1,0 +1,16 @@
+.Bienvenida{
+    font-size: 30px;
+    color:blueviolet;
+    font-weight: bold;
+    font-style: italic;
+    transform: skewX(-8deg);
+    
+}
+#autor{
+    color:aqua;
+    text-decoration: underline;
+    font-style: italic;
+}
+li{
+    font-style: italic;
+}
