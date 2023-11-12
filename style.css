@@ -1,16 +1,29 @@
-.Bienvenida{
-    font-size: 30px;
-    color:blueviolet;
-    font-weight: bold;
-    font-style: italic;
-    transform: skewX(-8deg);
-    
-}
-#autor{
-    color:aqua;
-    text-decoration: underline;
-    font-style: italic;
+header{
+    background-color: blue;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    height: 70px;
+    width: 600px;
+    margin: auto;
+
+
 }
 li{
     font-style: italic;
+}
+body{
+    background-color:bisque
+
+}
+
+main{
+    padding: 40px;
+    width: 60%;
+    border-radius: 10px;
+    margin: auto;
+    background-color: greenyellow;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
