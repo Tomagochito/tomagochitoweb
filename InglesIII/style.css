@@ -1,5 +1,12 @@
+@font-face {
+    font-family: 'Comic Sans';
+    src: url('recursosExternos/ComicSansMS.woff') format('woff'),
+  }
+
+
+
 header{
-    background-color: blue;
+    background-color: rgb(0, 255, 81)0, 255, 89);
     display: flex;
     flex-direction:column;
     align-items: center;
@@ -13,16 +20,17 @@ li{
     font-style: italic;
 }
 body{
-    background-color:bisque
+    background-color:rgb(88, 114, 230)
 
 }
 
 main{
+    font-family: "Comic Sans";
     padding: 40px;
     width: 60%;
     border-radius: 10px;
     margin: auto;
-    background-color: greenyellow;
+    background-color: rgb(239, 108, 222);
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+       <h1>Programacion de Sistemas</h1>
+       <h2>Proceso de compilacion de un archivo ordinario:</h2>
+       <ol>
+        <li>Preprocesamiento(.o -> .i): Incluye archivos de cabecera,reemplaza directivas de compilación 
+            (empiezan con #), elimina comentarios.
+        </li>
+        <li>
+            Compilación (.i -> .s):El compilador convierte el código preprocesado en código ensamblador.
+        </li>
+        <li>
+            Ensamblado (.s -> .o): El ensamblador convierte el código ensamblador en código máquina y genera un archivo objeto.
+        </li>
+        <li>
+            Linking(.o -> ejecutable): Fusiona diferentes archivos en lenguaje de máquina a un solo archivo ejecutable.
+        </li>        
+       </ol>
+       <img src="imagenes/img1.png" alt="Descripción de la imagen">
+       
+       <p>Durante la compilacion en la etapa de Linking pueden surgir inconvenientes si en dos de los archivos a unirse para ser ejecutable; 
+        se llama a la misma funcion, ya que en este proceso el enlazador toma los archivos objeto creados en el anterior 
+        proceso de ensamblado e intenta unirlos, y diciendolo fácil de entender, se repiten inclusiones de código relacionado
+        a esa funcion; y se producen problemas durante esa etapa; es por eso que es importante ahce uso de:
+       </p>
+       <ul><li>#ifndef ESTRUCTURA_H_</li><li>#define ESTRUCTURA_H</li><li>#endif</li></ul>
+
+       <img src="imagenes/estructura.png" alt="Descripción de la imagen">
+
+       <p>El ifndef actúa como un condicional durante el proceso de linkeo, pregunta si estructura.h ya ha sido incluido durante
+        el proceso, de ser asi, no lo vuelve a incluir; y en caso de no ser asi, lo define e incluye.
+       </p>
+       <p>El #include stdio.h no necesita ifndef, define, endif; en su archivo ya los incluye, es una libreria y no necesitamos hacerlo. </p>
+
+       <h2>Compilando un archivo con dependencias en c</h2>
+       <p>La manera más rapida de hacerlo es usando gcc archivosn.c -o nombreejecutable</p>
+
+       <img src="imagenes/comprapido.png" alt="Descripción de la imagen">
+       <img src="imagenes/comprapido2.png" alt="Descripción de la imagen">
+
+       <p>Sin embargo se lo puede hacer por partes, es decir; se pueden generar los archivos .i,
+         luego los .s, luego los.o y finalmente el ejecutable </p>
+         <p>El orden y sintaxis serían el siguiente:</p>
+         <ol>
+            <li>gcc -E narchs.c -o narchs.i</li>
+            <li>gcc -S narchs.i -o narchs.s</li>
+            <li>gcc -c narchs.s -o narchs.o</li>
+            <li>gcc narchs.o -o ejecutable</li>
+        </ol>
+
+        <img src="imagenes/img2.png" alt="Descripción de la imagen">
+        <img src="imagenes/img3.png" alt="Descripción de la imagen">
+
+        <p>Se pueden borrar todos los archivos con simples comandos</p>
+        <img src="imagenes/borrados.png" alt="Descripción de la imagen">
+
+<p>Tambien se puede automatizar esto con la herramienta make, todo el proceso de compilacion</p>
+<img src="imagenes/makefile.png" alt="Descripción de la imagen">
+<img src="imagenes/img4.png" alt="Descripción de la imagen">
+<img src="imagenes/img6.png" alt="Descripción de la imagen">
+
+<p>El proceso realmente se púdo haber hecho mas corto, solo dependiendo del .c para generar .o y asi el ejecutable,
+    pero es una manera de visualizar las lineas de codigo que te ahorra hacer un makefile
+</p>
+<p>Para variar podemos borrar esos archivos .i, .o, .s; de alli; con un script; o con un alias, seran de las dos maneras</p>
+
+<img src="imagenes/alias.png" alt="Descripción de la imagen">
+<img src="imagenes/scriptLimpiar.png" alt="Descripción de la imagen">
+<img src="imagenes/img7.png" alt="Descripción de la imagen">
+
+<p>Es bueno entender el proceso de compilacion, ahora que repasamos esto, podemos ir al segundo parcial </p>
+
+<h2>Librerías Estáticas y Dinámicas</h2>
+    <p>Comenzaré colocando un archivo .h y .c para crear mis librerias</p>
+        <img src="imagenes/headerlib.png" alt="Descripción de la imagen">
+        <img src="imagenes/funcioneslib.png" alt="Descripción de la imagen">
+        <img src="imagenes/main.png" alt="Descripción de la imagen">
+
+        <p>Cabe recalcar que el uso de "lib.h" o &lt;lib.h&gt; en el main.c o nuestro archivo c, ajeno a la libreria;
+           no define si el tipo de libreria es estática o dinámica, 
+            eso se define en tiempo de compilacion en el linking para las estaticas y en tiempo de carga o ejecucion 
+            para las dinamicas; además el uso de comillas se da para que en el proceso de compilacion linkeo se busque
+            la libreria dinamica donde reside el programa principal, si no esta alli buscará donde estan las librerias estándar de c. Si 
+            se colocan simbolos de mayor menor al compilar se buscará la librería donde estan las librerías estándar, y si no estan alli buscará 
+            donde reside el programa principal.Para las librerias estaticas se puede especificar tambien donde esta la libreria
+
+        </p>
+        <p>Ahora se crea la libreria estatica, seguido de los pasos: </p>
+        <ul>
+            <li>Se generan el .o de la libreria y con ese el .a</li>
+            <ol><li>gcc -c funcionesLib.c</li><li> ar rcs mystaticlib funcionesLib.o</li></ol>
+            <li>Se generan el .o del main.c</li>
+            <ol><li>gcc -c main.c</li></ol>   
+            <li>Se generan el .o de la libreria y con ese el .a</li>
+            <li>Se los linkea</li>
+            <ol><li>gcc -static -o staticexe main.o mystaticlib</li></ol>
+            <li>Se ejecuta con el ./staticexe</li>            
+        </ul>
+        <p>El nombre de la libreria estatica es mystaticlib, y no mystaticlib.a por preferencia; esto se podria cambiar alterando el
+             nombre de la variable NAMELIB a mystaticlib.a 
+             ademas la libreria y el main al linkearse son uno, el codigo que el main uso de las funcioens de la libreria se han copiado;
+             como hemos usado todas las funciones, las copia todas, de  haber solo usado una, no se habrian copiado las demas.
+        </p>
+        <p>Usaremos un make para hacer esto.</p>
+        <img src="imagenes/staticmake.png" alt="Descripción de la imagen">
+        <p>Aqui en el main.c se han colocado comillas, porque la libreria esta donde reside el programa main.c; Ahora
+            se compilara esto con make; y se creara el ejecutabe con la libreria estatica  </p>
+            <img src="imagenes/staticexe.png" alt="Descripción de la imagen">
+            <p>Como extra al momento de compilar y linkear la libreria dinamica con el main.c o nuestro proyecto en c, hay que dejar en claro 
+                donde esta la libreria como ./nombrelib; o usar -I para cuando sea caso #include &lt;mylib.h&gt; o -iquote para comillas, con otras direcciones
+            </p>
+            <img src="imagenes/dynamicmake.png" alt="Descripción de la imagen">
+            <img src="imagenes/dynamicexe.png" alt="Descripción de la imagen">
+
+            
+
+    </main>
+</body>
+</html>
